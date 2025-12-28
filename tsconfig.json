@@ -1,0 +1,37 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "module": "commonjs",
+    "outDir": "./dist",
+    "rootDir": "./",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "baseUrl": "./",
+    "typeRoots": [
+      "./node_modules/@types",
+      "./src/types"
+    ],
+    "paths": {
+      "@models/*": ["models/*"],
+      "@src/*": ["src/*"],
+      "@types/*": ["src/types/*"]
+    },
+    "types": [
+      "node",
+      "multer",
+      "jest"
+    ]
+  },
+  "include": [
+    "src/**/*.ts",
+    "models/**/*.ts",
+    "src/types/**/*.d.ts",
+    "src/__tests__/**/*.ts",
+    "templates/**/*.html"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
+}

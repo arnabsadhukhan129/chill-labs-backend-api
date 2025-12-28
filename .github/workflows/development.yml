@@ -1,0 +1,39 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - development
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+      
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '20'
+
+
+    - name: Deploy to VPS
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.VPS_HOST }}  # Your VPS IP address or domain
+        username: ${{ secrets.SSH_USERNAME }}  # SSH username for the VPS
+        key: ${{ secrets.SSH_PRIVATE_KEY }}  # SSH private key stored in secrets
+        port: 22  # SSH port, usually 22
+        node-version: '20'
+        script: |
+          cd /var/www/projects/chilllabs/chill-labs-backend-api
+          git pull origin development  # Pull the latest code from the repository
+          cd /var/www/projects/chilllabs/chill-labs-backend-api
+          export NVM_DIR=~/.nvm
+          source ~/.nvm/nvm.sh
+          nvm use v20
+          npm install  # Install dependencies
+          npm run build
+          npm run staging:stop && npm run staging
